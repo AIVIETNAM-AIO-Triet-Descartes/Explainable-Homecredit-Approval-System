@@ -1,0 +1,32 @@
+# Data
+data/raw/*
+data/processed/*
+!data/**/.gitkeep
+
+# MLflow
+mlflow/store/
+mlflow/artifacts/
+mlruns/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Models
+*.pkl
+*.joblib
+
+# Notebooks
+.ipynb_checkpoints/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Env
+.env
