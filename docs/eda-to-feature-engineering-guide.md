@@ -178,6 +178,40 @@ plt.tight_layout()
 
 ---
 
+### 2.3b — Correlation heatmap (top features vs TARGET)
+
+Sau khi đã xác định `top_features` từ bước trên, heatmap giúp trả lời 2 câu hỏi cùng lúc: feature nào tương quan với TARGET, và feature nào tương quan *với nhau* (→ candidates drop ở Bước 6.2).
+
+> **Giới hạn top 20–30 features.** Heatmap 120+ features không đọc được.
+
+```python
+top20 = target_corr.head(20).index.tolist()
+corr_data = app[top20 + ['TARGET']].corr()
+
+fig, ax = plt.subplots(figsize=(14, 12))
+mask = np.triu(np.ones_like(corr_data, dtype=bool))  # chỉ show lower triangle
+sns.heatmap(
+    corr_data,
+    mask=mask,
+    annot=True, fmt='.2f',
+    cmap='RdYlGn', center=0,
+    vmin=-1, vmax=1,
+    linewidths=0.5,
+    ax=ax
+)
+ax.set_title('Correlation heatmap — top 20 features + TARGET')
+plt.tight_layout()
+```
+
+**Đọc heatmap:**
+
+- Cột/hàng `TARGET`: features nào có |corr| cao → signal mạnh
+- Các cặp features có |corr| > 0.85 → ghi lại, drop ở Bước 6.2
+
+**Lưu ý quan trọng**: Pearson correlation chỉ bắt được **linear relationship**. Tree-based models (XGBoost, LightGBM) bắt được non-linear — nên không dùng heatmap này thay thế feature importance ở Bước 6.3. Dùng song song: heatmap tìm redundancy, feature importance tìm predictive power thực sự.
+
+---
+
 ### 2.4 — Phân tích features categorical
 
 ```python

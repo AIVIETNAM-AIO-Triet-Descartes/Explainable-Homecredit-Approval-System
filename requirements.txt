@@ -24,3 +24,6 @@ uvicorn[standard]
 pytest
 httpx
 ruff
+
+# Notebooks
+ipykernel
